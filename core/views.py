@@ -52,7 +52,7 @@ class UsersList(APIView):
         """
         Return user details.
         """
-        import pdb;pdb.set_trace()
+        #import pdb;pdb.set_trace()
         try:
             queryset = self.get_queryset(request)
             serializer = UserSerializer(queryset, many=True)
