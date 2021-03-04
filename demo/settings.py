@@ -1,5 +1,5 @@
 import os
-
+import datetime
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 DEBUG = True
@@ -14,7 +14,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
+    'rest_framework',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -75,3 +79,31 @@ if ENVIRONMENT == 'production':
     SECURE_REDIRECT_EXEMPT = []
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# REST Framework config options:
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'burst': '700/minute',
+        'sustained': '700/minute',
+        'anonymous': '700/minute',
+        'indeeuser': '700/minute',
+        'indeeengagement': '50/minute',
+    },
+    'PAGE_SIZE': 12
+}
+
+# jwt auth expiration for token
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=86400),
+}
+
+JWT_EXPIRATION_DELTA_FYC = datetime.timedelta(seconds=7776000)
+JWT_EXPIRATION_DELTA_INTERNATIONAL = datetime.timedelta(seconds=2592000)
+JWT_EXPIRATION_DELTA_PUBLICITY = datetime.timedelta(seconds=2592000)
+
